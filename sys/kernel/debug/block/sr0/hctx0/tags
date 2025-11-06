@@ -1,0 +1,26 @@
+nr_tags=32
+nr_reserved_tags=0
+active_queues=0
+
+bitmap_tags:
+depth=32
+busy=0
+cleared=13
+bits_per_word=8
+map_nr=4
+alloc_hint={26, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+wake_batch=4
+wake_index=0
+ws_active=0
+ws={
+	{.wait=inactive},
+	{.wait=inactive},
+	{.wait=inactive},
+	{.wait=inactive},
+	{.wait=inactive},
+	{.wait=inactive},
+	{.wait=inactive},
+	{.wait=inactive},
+}
+round_robin=1
+min_shallow_depth=4294967295

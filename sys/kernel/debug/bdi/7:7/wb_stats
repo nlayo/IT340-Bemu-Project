@@ -1,0 +1,13 @@
+WbCgIno:                    1
+WbWriteback:                0 kB
+WbReclaimable:              0 kB
+WbDirtyThresh:          60136 kB
+WbDirtied:                  0 kB
+WbWritten:                  0 kB
+WbWriteBandwidth:      102400 kBps
+b_dirty:                    0
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      1
+

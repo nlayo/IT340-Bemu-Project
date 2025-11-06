@@ -1,0 +1,18 @@
+Description              	Hex        SET
+ACPI_UTILITIES           	0x00000001 [ ]
+ACPI_HARDWARE            	0x00000002 [ ]
+ACPI_EVENTS              	0x00000004 [ ]
+ACPI_TABLES              	0x00000008 [ ]
+ACPI_NAMESPACE           	0x00000010 [ ]
+ACPI_PARSER              	0x00000020 [ ]
+ACPI_DISPATCHER          	0x00000040 [ ]
+ACPI_EXECUTER            	0x00000080 [ ]
+ACPI_RESOURCES           	0x00000100 [ ]
+ACPI_CA_DEBUGGER         	0x00000200 [ ]
+ACPI_OS_SERVICES         	0x00000400 [ ]
+ACPI_CA_DISASSEMBLER     	0x00000800 [ ]
+ACPI_COMPILER            	0x00001000 [ ]
+ACPI_TOOLS               	0x00002000 [ ]
+ACPI_ALL_DRIVERS         	0xFFFF0000 [ ]
+--
+debug_layer = 0x00000000 ( * = enabled)

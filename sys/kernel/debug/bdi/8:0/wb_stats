@@ -1,0 +1,455 @@
+WbCgIno:                    1
+WbWriteback:                0 kB
+WbReclaimable:            256 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:             104960 kB
+WbWritten:             104704 kB
+WbWriteBandwidth:       97020 kBps
+b_dirty:                    0
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      1
+
+WbCgIno:                   31
+WbWriteback:                0 kB
+WbReclaimable:              0 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:                  0 kB
+WbWritten:                  0 kB
+WbWriteBandwidth:      101760 kBps
+b_dirty:                    0
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      1
+
+WbCgIno:                  375
+WbWriteback:              256 kB
+WbReclaimable:            256 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:              17664 kB
+WbWritten:              17408 kB
+WbWriteBandwidth:       93660 kBps
+b_dirty:                    2
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      5
+
+WbCgIno:                 2070
+WbWriteback:                0 kB
+WbReclaimable:              0 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:                  0 kB
+WbWritten:                  0 kB
+WbWriteBandwidth:      102400 kBps
+b_dirty:                    0
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      1
+
+WbCgIno:                 2285
+WbWriteback:                0 kB
+WbReclaimable:              0 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:                  0 kB
+WbWritten:                  0 kB
+WbWriteBandwidth:      102400 kBps
+b_dirty:                    0
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      1
+
+WbCgIno:                 2887
+WbWriteback:                0 kB
+WbReclaimable:              0 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:                  0 kB
+WbWritten:                  0 kB
+WbWriteBandwidth:      102400 kBps
+b_dirty:                    1
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      5
+
+WbCgIno:                 2758
+WbWriteback:                0 kB
+WbReclaimable:            256 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:                512 kB
+WbWritten:                512 kB
+WbWriteBandwidth:       89696 kBps
+b_dirty:                    3
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      5
+
+WbCgIno:                   74
+WbWriteback:                0 kB
+WbReclaimable:              0 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:                  0 kB
+WbWritten:                  0 kB
+WbWriteBandwidth:      101756 kBps
+b_dirty:                    0
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      1
+
+WbCgIno:                 3102
+WbWriteback:                0 kB
+WbReclaimable:              0 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:                  0 kB
+WbWritten:                  0 kB
+WbWriteBandwidth:      102400 kBps
+b_dirty:                    0
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      1
+
+WbCgIno:                 3145
+WbWriteback:                0 kB
+WbReclaimable:              0 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:                  0 kB
+WbWritten:                  0 kB
+WbWriteBandwidth:       99696 kBps
+b_dirty:                    0
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      1
+
+WbCgIno:                 1579
+WbWriteback:                0 kB
+WbReclaimable:              0 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:                  0 kB
+WbWritten:                  0 kB
+WbWriteBandwidth:      102400 kBps
+b_dirty:                    0
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      1
+
+WbCgIno:                 3489
+WbWriteback:                0 kB
+WbReclaimable:              0 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:                  0 kB
+WbWritten:                  0 kB
+WbWriteBandwidth:       98916 kBps
+b_dirty:                    0
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      1
+
+WbCgIno:                 3661
+WbWriteback:                0 kB
+WbReclaimable:              0 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:                  0 kB
+WbWritten:                  0 kB
+WbWriteBandwidth:      101764 kBps
+b_dirty:                    0
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      1
+
+WbCgIno:                 2844
+WbWriteback:                0 kB
+WbReclaimable:              0 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:               4608 kB
+WbWritten:               4352 kB
+WbWriteBandwidth:       93600 kBps
+b_dirty:                    0
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      1
+
+WbCgIno:                 4855
+WbWriteback:                0 kB
+WbReclaimable:              0 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:                  0 kB
+WbWritten:                  0 kB
+WbWriteBandwidth:      102400 kBps
+b_dirty:                    0
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      1
+
+WbCgIno:                 4898
+WbWriteback:                0 kB
+WbReclaimable:              0 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:                  0 kB
+WbWritten:                  0 kB
+WbWriteBandwidth:      102400 kBps
+b_dirty:                    0
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      1
+
+WbCgIno:                 5807
+WbWriteback:                0 kB
+WbReclaimable:              0 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:                  0 kB
+WbWritten:                  0 kB
+WbWriteBandwidth:      102400 kBps
+b_dirty:                    0
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      1
+
+WbCgIno:                 5671
+WbWriteback:                0 kB
+WbReclaimable:              0 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:                  0 kB
+WbWritten:                  0 kB
+WbWriteBandwidth:      101760 kBps
+b_dirty:                    0
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      1
+
+WbCgIno:                 6502
+WbWriteback:                0 kB
+WbReclaimable:              0 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:                  0 kB
+WbWritten:                  0 kB
+WbWriteBandwidth:      102400 kBps
+b_dirty:                    0
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      1
+
+WbCgIno:                 6674
+WbWriteback:                0 kB
+WbReclaimable:              0 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:                  0 kB
+WbWritten:                  0 kB
+WbWriteBandwidth:      102400 kBps
+b_dirty:                    0
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      1
+
+WbCgIno:                 6330
+WbWriteback:                0 kB
+WbReclaimable:              0 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:                  0 kB
+WbWritten:                  0 kB
+WbWriteBandwidth:      102400 kBps
+b_dirty:                    0
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      1
+
+WbCgIno:                 6588
+WbWriteback:                0 kB
+WbReclaimable:              0 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:                  0 kB
+WbWritten:                  0 kB
+WbWriteBandwidth:      102400 kBps
+b_dirty:                    0
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      1
+
+WbCgIno:                 5850
+WbWriteback:                0 kB
+WbReclaimable:            256 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:               1024 kB
+WbWritten:               1024 kB
+WbWriteBandwidth:      102400 kBps
+b_dirty:                    0
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      1
+
+WbCgIno:                 7620
+WbWriteback:                0 kB
+WbReclaimable:              0 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:                  0 kB
+WbWritten:                  0 kB
+WbWriteBandwidth:      102400 kBps
+b_dirty:                    0
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      1
+
+WbCgIno:                 7706
+WbWriteback:                0 kB
+WbReclaimable:              0 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:                  0 kB
+WbWritten:                  0 kB
+WbWriteBandwidth:      101768 kBps
+b_dirty:                    0
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      1
+
+WbCgIno:                 7835
+WbWriteback:                0 kB
+WbReclaimable:              0 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:                  0 kB
+WbWritten:                  0 kB
+WbWriteBandwidth:      102400 kBps
+b_dirty:                    0
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      1
+
+WbCgIno:                 8050
+WbWriteback:                0 kB
+WbReclaimable:              0 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:                  0 kB
+WbWritten:                  0 kB
+WbWriteBandwidth:      102400 kBps
+b_dirty:                    0
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      1
+
+WbCgIno:                 7921
+WbWriteback:                0 kB
+WbReclaimable:              0 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:               1792 kB
+WbWritten:               1536 kB
+WbWriteBandwidth:       91568 kBps
+b_dirty:                    5
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      5
+
+WbCgIno:                 8265
+WbWriteback:                0 kB
+WbReclaimable:              0 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:                512 kB
+WbWritten:                256 kB
+WbWriteBandwidth:      102400 kBps
+b_dirty:                    2
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      5
+
+WbCgIno:                 8308
+WbWriteback:                0 kB
+WbReclaimable:          41216 kB
+WbDirtyThresh:         499400 kB
+WbDirtied:             430848 kB
+WbWritten:             389376 kB
+WbWriteBandwidth:       33952 kBps
+b_dirty:                45019
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      5
+
+WbCgIno:                  160
+WbWriteback:                0 kB
+WbReclaimable:              0 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:                  0 kB
+WbWritten:                  0 kB
+WbWriteBandwidth:      102400 kBps
+b_dirty:                    0
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      1
+
+WbCgIno:                 5356
+WbWriteback:                0 kB
+WbReclaimable:              0 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:                  0 kB
+WbWritten:                  0 kB
+WbWriteBandwidth:      102400 kBps
+b_dirty:                    0
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      1
+
+WbCgIno:                 8437
+WbWriteback:                0 kB
+WbReclaimable:              0 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:                  0 kB
+WbWritten:                  0 kB
+WbWriteBandwidth:      102400 kBps
+b_dirty:                    0
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      1
+
+WbCgIno:                 8480
+WbWriteback:                0 kB
+WbReclaimable:              0 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:                256 kB
+WbWritten:                256 kB
+WbWriteBandwidth:       99996 kBps
+b_dirty:                    0
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      1
+
+WbCgIno:                 7878
+WbWriteback:                0 kB
+WbReclaimable:              0 kB
+WbDirtyThresh:          60128 kB
+WbDirtied:                  0 kB
+WbWritten:                  0 kB
+WbWriteBandwidth:      100584 kBps
+b_dirty:                    0
+b_io:                       0
+b_more_io:                  0
+b_dirty_time:               0
+state:                      1
+

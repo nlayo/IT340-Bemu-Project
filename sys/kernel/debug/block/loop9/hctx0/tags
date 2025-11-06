@@ -1,0 +1,26 @@
+nr_tags=128
+nr_reserved_tags=0
+active_queues=0
+
+bitmap_tags:
+depth=128
+busy=0
+cleared=10
+bits_per_word=32
+map_nr=4
+alloc_hint={73, 78, 4, 58, 57, 31, 35, 120, 31, 48, 15, 75, 75, 6, 60, 65, 3, 33, 115, 53, 62, 95, 89, 70, 58, 83, 82, 14, 118, 57, 5, 98, 82, 0, 46, 23, 101, 75, 17, 124, 50, 70, 39, 30, 117, 6, 43, 71, 99, 116, 35, 77, 112, 49, 13, 101, 26, 71, 4, 40, 1, 83, 123, 124, 34, 7, 79, 103, 54, 21, 47, 72, 123, 55, 124, 24, 21, 53, 113, 45, 29, 21, 9, 69, 125, 108, 123, 106, 64, 29, 58, 70, 126, 14, 17, 63, 93, 9, 33, 73, 125, 125, 42, 126, 63, 8, 32, 15, 112, 98, 125, 123, 39, 36, 73, 0, 54, 100, 109, 63, 72, 79, 14, 59, 9, 68, 12, 79}
+wake_batch=8
+wake_index=0
+ws_active=0
+ws={
+	{.wait=inactive},
+	{.wait=inactive},
+	{.wait=inactive},
+	{.wait=inactive},
+	{.wait=inactive},
+	{.wait=inactive},
+	{.wait=inactive},
+	{.wait=inactive},
+}
+round_robin=0
+min_shallow_depth=4294967295

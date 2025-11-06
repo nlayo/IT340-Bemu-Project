@@ -1,0 +1,19 @@
+online:              1
+initial_apicid:      0
+apicid:              0
+pkg_id:              0
+die_id:              0
+cu_id:               255
+core_id:             0
+cpu_type:            unknown
+logical_pkg_id:      0
+logical_die_id:      0
+logical_core_id:     0
+llc_id:              0
+l2c_id:              0
+amd_node_id:         0
+amd_nodes_per_pkg:   0
+num_threads:         1
+num_cores:           1
+max_dies_per_pkg:    1
+max_threads_per_core:1

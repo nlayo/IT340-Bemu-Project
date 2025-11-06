@@ -1,0 +1,7 @@
+domain: Thread     shift: 0 dom_size:     1 max_threads:     1
+domain: Core       shift: 0 dom_size:     1 max_threads:     1
+domain: Module     shift: 0 dom_size:     1 max_threads:     1
+domain: Tile       shift: 0 dom_size:     1 max_threads:     1
+domain: Die        shift: 0 dom_size:     1 max_threads:     1
+domain: DieGrp     shift: 0 dom_size:     1 max_threads:     1
+domain: Package    shift: 0 dom_size:     1 max_threads:     1
