@@ -1,0 +1,2 @@
+DRIVER=floppy
+MODALIAS=platform:floppy
