@@ -1,0 +1,263 @@
+/* Global reset + base */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #e3e6e6;
+}
+
+/* Top Header */
+.top-header {
+    background-color: #131921;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo {
+    font-size: 1.4rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.logo-link {
+    text-decoration: none;
+    color: white;
+}
+
+.search-bar {
+    flex: 1;
+    display: flex;
+    max-width: 700px;
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    outline: none;
+}
+
+.search-bar button {
+    padding: 8px 14px;
+    border: none;
+    cursor: pointer;
+}
+
+.header-links {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 0.9rem;
+}
+
+.header-links a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Log In button in header */
+.login-btn {
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid #f3a847;
+    background-color: #f0c14b;
+    color: #111;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Secondary nav */
+.sub-header {
+    background-color: #232f3e;
+    color: white;
+    padding: 8px 20px;
+    display: flex;
+    gap: 15px;
+    font-size: 0.9rem;
+}
+
+.sub-header a {
+    color: white;
+    text-decoration: none;
+}
+
+/* Main content */
+main {
+    padding: 20px;
+}
+
+/* Hero banner (homepage) */
+.hero-banner {
+    background: linear-gradient(90deg, #f5d39f, #f8f1df);
+    padding: 40px 20px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.hero-banner h1 {
+    margin-bottom: 10px;
+}
+
+.hero-banner p {
+    margin-bottom: 10px;
+}
+
+.hero-banner button {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Product grid (homepage) */
+.product-section-title {
+    margin: 10px 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+}
+
+.product-card {
+    background-color: white;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.product-image-placeholder {
+    background-color: #f2f2f2;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #555;
+    font-size: 0.9rem;
+    overflow: hidden;
+}
+
+.product-image-placeholder img {
+    max-height: 100%; 
+    max-width: 100%; 
+    width: auto; 
+    height: auto; 
+    object-fit: contain; 
+    display: block; 
+}
+
+.product-title {
+    font-size: 0.95rem;
+    margin-bottom: 6px;
+}
+
+.product-price {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.product-card button {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+/* Login page layout */
+.login-main {
+    min-height: calc(100vh - 140px); /* header + footer approx */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.login-container {
+    max-width: 400px;
+    width: 100%;
+}
+
+.login-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+
+.login-card h1 {
+    margin-bottom: 16px;
+}
+
+.login-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.login-card label {
+    font-size: 0.9rem;
+}
+
+.login-card input {
+    padding: 8px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+}
+
+.login-submit-btn {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 4px;
+    border: none;
+    background-color: #f0c14b;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.login-helper-text {
+    margin-top: 15px;
+    font-size: 0.85rem;
+}
+
+.login-helper-text a {
+    color: #007185;
+    text-decoration: none;
+}
+
+/* Footer */
+footer {
+    margin-top: 40px;
+    background-color: #131921;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 0.8rem;
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+    .top-header {
+        flex-wrap: wrap;
+    }
+
+    .search-bar {
+        order: 3;
+        width: 100%;
+        margin-top: 8px;
+    }
+}
