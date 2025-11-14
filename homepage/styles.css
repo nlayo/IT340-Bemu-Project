@@ -74,6 +74,68 @@ body {
     cursor: pointer;
 }
 
+.auth-page {
+   min-height: calc(100vh - 120px);
+   display: flex; 
+   align-items: center; 
+   justify-content: center; 
+   background-color: #f3f4f6; 
+}
+
+.auth-card{ 
+   background: #fff; 
+   padding: 2 rem 2.5rem; 
+   border-radius: 10px; 
+   box-shadow: 0 10px 25px rgba(0,0,0,0.08); 
+   max-width: 420px; 
+   width: 100%; 
+} 
+
+.authcard h1 {
+   margin-bottom: 0.5rem; 
+} 
+
+.auth-card p {
+   margin-bottom: 1.5rem; 
+   color: #555; 
+} 
+
+.auth-form label { 
+   display: block; 
+   margin-botton: 1rem; 
+   font-size: 0.95rem; 
+} 
+
+.auith-form input {
+   width: 100%
+   padding: 0.6rem 0.75rem; 
+   margin-top: 0.25rem; 
+   border: 1px solid #ccc; 
+   border-radius: 6px; 
+}
+
+.primary-btn{
+   width: 100%; 
+   padding: 0.75rem; 
+   background-color: #111827; 
+   color: #fff; 
+   border: none; 
+   border-radius: 6px; 
+   font-weight: 600; 
+   cursor: pointer; 
+} 
+
+.primary-btn:hover {
+   background-color: #000; 
+} 
+
+.auth-switch {
+   margin-top: 1rem; 
+   text-align: center; 
+   font-size: 0.9rem; 
+}
+
+
 /* Secondary nav */
 .sub-header {
     background-color: #232f3e;
@@ -143,22 +205,16 @@ main {
 .product-image-placeholder {
     background-color: #f2f2f2;
     height: 120px;
+    margin-bottom: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #555;
     font-size: 0.9rem;
-    overflow: hidden;
+    overflow: hidden; 
 }
 
-.product-image-placeholder img {
-    max-height: 100%; 
-    max-width: 100%; 
-    width: auto; 
-    height: auto; 
-    object-fit: contain; 
-    display: block; 
-}
+
 
 .product-title {
     font-size: 0.95rem;

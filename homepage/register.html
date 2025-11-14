@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Create Your Bemu Account</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="logo">Bemu</div>
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="login.html">Log in</a>
+    </nav>
+  </header>
+
+  <main class="auth-page">
+    <section class="auth-card">
+      <h1>Create your Bemu account</h1>
+      <p>Join Bemu to save your favorites, track orders, and more.</p>
+
+      <form class="auth-form">
+        <label>
+          Full name
+          <input type="text" name="fullname" required />
+        </label>
+
+        <label>
+          Email
+          <input type="email" name="email" required />
+        </label>
+
+        <label>
+          Password
+          <input type="password" name="password" required />
+        </label>
+
+        <label>
+          Confirm password
+          <input type="password" name="confirmPassword" required />
+        </label>
+
+        <button type="submit" class="primary-btn">
+          Create account
+        </button>
+      </form>
+
+      <p class="auth-switch">
+        Already have a Bemu account?
+        <a href="login.html">Log in instead</a>
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2025 Bemu. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // TEMP: just prevent actual submission since there's no backend yet
+    document.querySelector('.auth-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      alert('Account creation demo only – no real backend yet 🙂');
+    });
+  </script>
+</body>
+</html>
