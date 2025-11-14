@@ -143,12 +143,21 @@ main {
 .product-image-placeholder {
     background-color: #f2f2f2;
     height: 120px;
-    margin-bottom: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #555;
     font-size: 0.9rem;
+    overflow: hidden;
+}
+
+.product-image-placeholder img {
+    max-height: 100%; 
+    max-width: 100%; 
+    width: auto; 
+    height: auto; 
+    object-fit: contain; 
+    display: block; 
 }
 
 .product-title {
