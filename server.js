@@ -13,6 +13,12 @@ const PORT = process.env.PORT || 3000;
 app.use(cors()); 
 app.use(express.json());
 
+app.use((req, res, next) => {
+   console.log(`LOGGING SCRIPT: ECHO STATEMENTS FOR SENDING SOMETHING TO BACKEND`); 
+   console.log(`LOGGING SCRIPT: Received ${req.method} ${req.url} from ${req.ip}`); 
+   next(); 
+});
+
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
@@ -86,6 +92,21 @@ app.post('/api/login', async (req, res) => {
      } 
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-   console.log(` Bemu backend listening on port ${PORT}`); 
+app.post('/api/log-test', (req, res) => {
+  const { source, message } = req.body || {}; 
+ 
+  console.log(
+	'LOGGING SCRIPT: received log from', 
+	source || 'unknown', 
+	'-',
+	message || '(no message)'
+); 
+
+	return res.json({ status: 'ok', received: { source, message } });
 });
+
+  app.listen(PORT, '0.0.0.0', () => {
+	console.log(`Bemu backend listening on port ${PORT}`); 
+});  
+
+
