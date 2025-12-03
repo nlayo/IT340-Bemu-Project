@@ -1,0 +1,89 @@
+require('dotenv').config(); 
+
+const express = require('express');
+const mongoose = require('mongoose'); 
+const cors = require('cors'); 
+const bcrypt = require('bcrypt'); 
+
+const User = require('./models/User');
+
+const app = express(); 
+const PORT = process.env.PORT || 3000; 
+
+app.use(cors()); 
+app.use(express.json());
+
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log('connected to mongoDB'); 
+})
+  .catch((err) => {
+    console.error('mongoDB connection error:', err); 
+    process.exit(1); 
+}); 
+
+
+app.get('/', (req, res) => {
+   res.send('Bemu backend is up');
+});
+
+app.post('/api/register', async (req,res) => {
+  try {
+    const { email, password } = req.body; 
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Email and password are required ' }); 
+    }
+
+    const existing = await User.findOne({ email }); 
+    if (existing) {
+      return res.status(409).json({ message: 'Email already registered' }); 
+   }
+
+   const passwordHash = away bcrypt.hash(password, 10); 
+   const user = await User.create({
+     email, 
+     passwordHash, 
+   }); 
+
+
+   return res.status(201).json({
+     message: 'User registered successfully'. 
+     userID: user._id, 
+
+   }); 
+
+  } catch (err) {
+      console.error('Register error:', err); 
+      return res.status(500).json({ message: 'Server error' }); 
+   } 
+}); 
+
+app.post('/api/login', async (req, res) => {
+   try { 
+     const { email, password } req.body; 
+
+    if (!email || !password) {
+     return res.status(400).json({ message: 'Email and password are required' }); 
+   } 
+
+    const user = await User.findOne({ email }); 
+    if (!user) { 
+      return res.status(401).json({ message: 'invalid email or password' }); 
+   } 
+
+    const isMatch = await bcrypt.compare(password, user.passwordHash); 
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Invalid email or password' }); 
+
+    return res.json({ message: 'Login successful' }); 
+    } catch (err) {
+        console.error('Login error:', err); 
+        return res.status(500).json({ message: 'Server error' }); 
+    }
+}); 
+
+app.listen(PORT, '0.0.0.0.', () => {
+   console.log(` Bemu backend listening on port ${PORT}`); 
+});
+
