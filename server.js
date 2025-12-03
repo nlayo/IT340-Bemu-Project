@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose'); 
 const cors = require('cors'); 
-const bcrypt = require('bcrypt'); 
+const bcrypt = require('bcryptjs'); 
 
 const User = require('./models/User');
 
@@ -40,7 +40,7 @@ app.post('/api/register', async (req,res) => {
       return res.status(409).json({ message: 'Email already registered' }); 
    }
 
-   const passwordHash = away bcrypt.hash(password, 10); 
+   const passwordHash = await bcrypt.hash(password, 10); 
    const user = await User.create({
      email, 
      passwordHash, 
@@ -48,8 +48,9 @@ app.post('/api/register', async (req,res) => {
 
 
    return res.status(201).json({
-     message: 'User registered successfully'. 
+     message: 'User registered successfully', 
      userID: user._id, 
+     email: user.email
 
    }); 
 
@@ -61,7 +62,7 @@ app.post('/api/register', async (req,res) => {
 
 app.post('/api/login', async (req, res) => {
    try { 
-     const { email, password } req.body; 
+     const { email, password } = req.body; 
 
     if (!email || !password) {
      return res.status(400).json({ message: 'Email and password are required' }); 
