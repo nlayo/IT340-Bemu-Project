@@ -6,6 +6,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
 </head>
+<!--- <form class="login-form">
+   <label for="email">Email</label>
+  <input id="email" type="email" placeholder="you@example.com" required />
+
+  <label for="password">Password</label>
+  <input id="password" type="password" placeholder="Enter your password" required />
+
+  <button type="submit" class="login-submit-btn">Log In</button>
+</form> -->
+<script>
+  const loginForm = document.querySelector('.login-form');
+
+  loginForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+
+    try {
+      const response = await fetch('http://192.168.10.12:3000/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(data.message || 'Login failed');
+        return;
+      }
+
+      alert('Login successful!');
+      window.location.href = 'index.html';
+    } catch (err) {
+      console.error(err);
+      alert('Error connecting to server.');
+    }
+  });
+</script>
+
 <body>
     <header class="top-header">
         <div class="logo"><a href="index.html" class="logo-link">Bemu</a></div>
@@ -42,14 +83,16 @@
                 </form>
 
                 <p class="login-helper-text">
-                    New to Bemu Storefront? <a href="#">Create your Bemu account</a>
+                    New to Bemu Storefront?
+		 <a href="register.html">Create your Bemu account</a>
                 </p>
             </div>
         </section>
     </main>
 
     <footer>
-        &copy; 2025 Bemu. All rights reserved.
+       <p> &copy; 2025 Bemu. All rights reserved.<p>
     </footer>
 </body>
 </html>
+

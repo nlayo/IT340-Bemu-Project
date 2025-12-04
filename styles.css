@@ -62,6 +62,36 @@ body {
     text-decoration: none;
 }
 
+/* Header bar for auth pages */
+.site-header {
+  background-color: #131921;   /* navy / dark Amazon-style */
+  color: white;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.site-header .logo {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.site-header .main-nav {
+  display: flex;
+  gap: 15px;
+  font-size: 0.9rem;
+}
+
+.site-header .main-nav a {
+  color: white;
+  text-decoration: none;
+}
+
+.site-header .main-nav a:hover {
+  text-decoration: underline;
+}
+
 /* Log In button in header */
 .login-btn {
     padding: 8px 12px;
@@ -260,4 +290,131 @@ footer {
         width: 100%;
         margin-top: 8px;
     }
+}
+
+.primary-btn {
+  background-color: #facc15;      /* yellow */
+  color: #111827;                 /* dark text */
+  padding: 10px 16px;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 16px;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.primary-btn:hover {
+  background-color: #eab308;      /* darker yellow on hover */
+  transform: translateY(-1px);
+}
+
+/* ---------- Auth / Register page layout ---------- */
+
+.auth-page {
+  min-height: calc(100vh - 120px); /* room below header/footer */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+/* White card in the center */
+.auth-card {
+  background-color: #ffffff;
+  max-width: 520px;
+  width: 100%;
+  padding: 32px 40px;
+  border-radius: 8px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Title + subtitle */
+.auth-card h1 {
+  font-size: 1.8rem;
+  margin-bottom: 8px;
+}
+
+.auth-subtitle {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 24px;
+}
+
+/* Form layout */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.auth-form label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.auth-form input[type="text"],
+.auth-form input[type="email"],
+.auth-form input[type="password"] {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+}
+
+.auth-form input:focus {
+  outline: none;
+  border-color: #232f3e;       /* dark navy like Amazon */
+  box-shadow: 0 0 0 2px rgba(35, 47, 62, 0.18);
+}
+
+/* Submit button */
+.auth-btn {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px 0;
+  border: none;
+  border-radius: 4px;
+  background-color: #111827;   /* near-black header color */
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.auth-btn:hover {
+  background-color: #000000;
+}
+
+/* Bottom text: "Already have a Bemu account?" */
+.auth-footer {
+  margin-top: 16px;
+  font-size: 0.85rem;
+  text-align: center;
+  color: #555;
+}
+
+.auth-footer a {
+  color: #2563eb;              /* blue link */
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.auth-footer a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 600px) {
+  .auth-card {
+    padding: 24px 20px;
+  }
+
+  .auth-card h1 {
+    font-size: 1.5rem;
+  }
 }
