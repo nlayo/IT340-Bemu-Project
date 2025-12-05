@@ -13,12 +13,47 @@ const PORT = process.env.PORT || 3000;
 app.use(cors()); 
 app.use(express.json());
 
-app.use((req, res, next) => {
-   console.log(`LOGGING SCRIPT: ECHO STATEMENTS FOR SENDING SOMETHING TO BACKEND`); 
-   console.log(`LOGGING SCRIPT: Received ${req.method} ${req.url} from ${req.ip}`); 
-   next(); 
-});
+const http = require('http');
+const LOGGING_SERVER_HOST = '192.168.10.13';
+const LOGGING_SERVER_PORT = 4000;
 
+app.use((req, res, next) => {
+  const logEntry = {
+    method: req.method,
+    url: req.url,
+    ip: req.ip,
+    time: new Date().toISOString(),
+  };
+
+  console.log('LOGGING SCRIPT:', logEntry);
+
+  const data = JSON.stringify(logEntry);
+
+  const options = {
+    host: LOGGING_SERVER_HOST,
+    port: LOGGING_SERVER_PORT,
+    path: '/api/logs',
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Content-Length': Buffer.byteLength(data),
+    },
+  };
+
+  const reqLog = http.request(options, resLog => {
+
+    resLog.on('data', () => {});
+  });
+
+  reqLog.on('error', err => {
+    console.error('Error sending log to logging VM:', err.message);
+  });
+
+  reqLog.write(data);
+  reqLog.end();
+
+  next();
+});
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
