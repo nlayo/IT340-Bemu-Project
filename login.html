@@ -15,37 +15,6 @@
 
   <button type="submit" class="login-submit-btn">Log In</button>
 </form> -->
-<script>
-  const loginForm = document.querySelector('.login-form');
-
-  loginForm.addEventListener('submit', async function (e) {
-    e.preventDefault();
-
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
-
-    try {
-      const response = await fetch('http://192.168.10.12:3000/api/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        alert(data.message || 'Login failed');
-        return;
-      }
-
-      alert('Login successful!');
-      window.location.href = 'index.html';
-    } catch (err) {
-      console.error(err);
-      alert('Error connecting to server.');
-    }
-  });
-</script>
 
 <body>
     <header class="top-header">
@@ -93,6 +62,37 @@
     <footer>
        <p> &copy; 2025 Bemu. All rights reserved.<p>
     </footer>
+<script>
+  const loginForm = document.querySelector('.login-form');
+
+  loginForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+
+    try {
+      const response = await fetch('http://192.168.10.13/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(data.message || 'Login failed');
+        return;
+      }
+
+      alert('Login successful!');
+      window.location.href = 'index.html';
+    } catch (err) {
+      console.error(err);
+      alert('Error connecting to server.');
+    }
+  });
+</script>
 </body>
 </html>
 
