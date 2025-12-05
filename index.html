@@ -20,8 +20,10 @@
             <a href="#">Orders</a>
             <a href="#">Cart</a>
             <a href="login.html" class="login-btn">Log In</a>
+	    <button id="logout-btn" class="login-btn">Log out</button>
         </div>
     </header>
+    <p id="welcome to Bemu"></p>
 
     
     <nav class="sub-header">
@@ -84,5 +86,26 @@
     <footer>
        <p> &copy; 2025 Bemu. All rights reserved.<p>
     </footer>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+	const userEmail = sessionStorage.getItem('bemuUser');
+	if (!userEmail){
+	   window.location.href = 'login.html';
+	   return;
+	}
+	const welcome = document.getElementById('welcome-text');
+	if (welcome) {
+	   welcome.textContent = 'Welcome, ' + userEmail + '!';
+	}
+	const logoutBtn = document.getElementById('logout-btn');
+	if (logoutBtn) {
+	   logoutBtn.addEventListener('click', function () {
+	        sessionStorage.removeItem('bemuUser');
+		window.location.href = 'login.html';
+	   });
+	}
+    });
+    
+</script>
 </body>
 </html>
