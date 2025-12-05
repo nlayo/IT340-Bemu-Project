@@ -88,24 +88,23 @@
     </footer>
     <script>
     document.addEventListener('DOMContentLoaded', function () {
-	const userEmail = sessionStorage.getItem('bemuUser');
-	if (!userEmail){
-	   window.location.href = 'login.html';
-	   return;
+	 const userEmail = sessionStorage.getItem('bemuUser');
+	 if (!userEmail){
+	    window.location.href = 'login.html';
+	    return;
 	}
-	const welcome = document.getElementById('welcome-text');
-	if (welcome) {
-	   welcome.textContent = 'Welcome, ' + userEmail + '!';
+	 const welcome = document.getElementById('welcome-text');
+	 if (welcome) {
+	    welcome.textContent = 'Welcome, ' + userEmail + '!';
 	}
-	const logoutBtn = document.getElementById('logout-btn');
-	if (logoutBtn) {
-	   logoutBtn.addEventListener('click', function () {
-	        sessionStorage.removeItem('bemuUser');
-		window.location.href = 'login.html';
-	   });
-	}
-    });
-    
+	 const logoutBtn = document.getElementById('logout-btn');
+	 if (logoutBtn) {
+	    logoutBtn.addEventListener('click', function () {
+	         sessionStorage.removeItem('bemuUser');
+		 window.location.href = 'login.html';
+	    });
+	 }
+     });
 </script>
 </body>
 </html>
