@@ -62,7 +62,7 @@
   form.addEventListener('submit', async function (e) {
     e.preventDefault();
 
-    const fullname = form.fullname.value.trim();
+    
     const email = form.email.value.trim();
     const password = form.password.value;
     const confirmPassword = form.confirmPassword.value;
@@ -76,7 +76,7 @@
       const response = await fetch('http://192.168.10.12:3000/api/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fullname, email, password })
+        body: JSON.stringify({ email, password })
       });
 
       const data = await response.json();
