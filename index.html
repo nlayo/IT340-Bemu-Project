@@ -10,18 +10,22 @@
 
     <header class="top-header">
         <div class="logo">Bemu</div>
-
+	<button id="logout-btn" class="login-btn">Log out</button>
         <div class="search-bar">
             <input type="text" placeholder="Search for products..." />
             <button>Search</button>
         </div>
 
-        <div class="header-links">
-            <a href="#">Orders</a>
-            <a href="#">Cart</a>
-            <a href="login.html" class="login-btn">Log In</a>
-	    <button id="logout-btn" class="login-btn">Log out</button>
-        </div>
+  <div class="header-links">
+    <a href="#">Orders</a>
+    <a href="#">Cart</a>
+
+    <span id="user-status"></span>
+    <button id="auth-btn" class="login-btn"></button>
+  </div>
+
+	 <div id="user-status"></div>
+  <button id="logout-btn" class="login-btn">Log out</button>
     </header>
     <p id="welcome to Bemu"></p>
 
@@ -86,25 +90,35 @@
     <footer>
        <p> &copy; 2025 Bemu. All rights reserved.<p>
     </footer>
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-	 const userEmail = sessionStorage.getItem('bemuUser');
-	 if (!userEmail){
-	    window.location.href = 'login.html';
-	    return;
-	}
-	 const welcome = document.getElementById('welcome-text');
-	 if (welcome) {
-	    welcome.textContent = 'Welcome, ' + userEmail + '!';
-	}
-	 const logoutBtn = document.getElementById('logout-btn');
-	 if (logoutBtn) {
-	    logoutBtn.addEventListener('click', function () {
-	         sessionStorage.removeItem('bemuUser');
-		 window.location.href = 'login.html';
-	    });
-	 }
-     });
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const email = sessionStorage.getItem('bemuUser');
+    const statusEl = document.getElementById('user-status');
+    const authBtn = document.getElementById('auth-btn');
+
+    if (!statusEl || !authBtn) {
+      return; // safety
+    }
+
+    if (email) {
+      // ✅ Logged in
+      statusEl.textContent = 'Signed in as ' + email;
+      authBtn.textContent = 'Log out';
+
+      authBtn.onclick = function () {
+        sessionStorage.removeItem('bemuUser');
+        window.location.href = 'login.html';
+      };
+    } else {
+      // ❌ Not logged in
+      statusEl.textContent = ''; // or 'Guest'
+      authBtn.textContent = 'Sign in';
+
+      authBtn.onclick = function () {
+        window.location.href = 'login.html';
+      };
+    }
+  });
 </script>
 </body>
 </html>

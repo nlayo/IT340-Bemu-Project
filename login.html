@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="styles.css" />
 </head>
-<form id="login-form">
+<!--- <form id="login-form">
   <label>Email</label>
   <input id="email" type="email" placeholder="you@example.com" required />
 
@@ -15,92 +15,102 @@
   <input id="password" type="password" placeholder="Enter your password" required />
 
   <button type="submit" class="login-submit-btn">Log In</button>
-</form>
+</form> --->
 
 <body>
-    <header class="top-header">
-        <div class="logo"><a href="index.html" class="logo-link">Bemu</a></div>
+  <header class="top-header">
+    <div class="logo">
+      <a href="index.html" class="logo-link">Bemu</a>
+    </div>
 
-        <div class="search-bar">
-            <input type="text" placeholder="Search for products..." />
-            <button>Search</button>
-        </div>
+    <div class="search-bar">
+      <input type="text" placeholder="Search for products..." />
+      <button>Search</button>
+    </div>
 
-        <div class="header-links">
-            <a href="#">Orders</a>
-            <a href="#">Cart</a>
-            <a href="login.html" class="login-btn">Log In</a>
-        </div>
-    </header>
+    <div class="header-links">
+      <a href="#">Orders</a>
+      <a href="#">Cart</a>
+      <!-- just a link to this page, NOT a form -->
+      <a href="login.html" class="login-btn">Log In</a>
+    </div>
+  </header>
 
-    <nav class="sub-header">
-        <a href="index.html">Back to Home</a>
-    </nav>
+  <nav class="sub-header">
+    <a href="index.html">Back to Home</a>
+  </nav>
 
-    <main class="login-main">
-        <section class="login-container">
-            <div class="login-card">
-                <h1>Sign-In</h1>
+  <main class="login-main">
+    <section class="login-container">
+      <div class="login-card">
+        <h1>Sign-In</h1>
 
-                <form>
-                    <label for="email">Email</label>
-                    <input id="email" type="email" placeholder="you@example.com" required />
+        
+        <form id="login-form" class="login-form">
+          <label for="email">Email</label>
+          <input id="email" type="email" placeholder="you@example.com" required />
 
-                    <label for="password">Password</label>
-                    <input id="password" type="password" placeholder="Enter your password" required />
+          <label for="password">Password</label>
+          <input id="password" type="password" placeholder="Enter your password" required />
 
-                    <button type="submit" class="login-submit-btn">Log In</button>
-                </form>
+          <button type="submit" class="login-submit-btn">Log In</button>
+        </form>
 
-                <p class="login-helper-text">
-                    New to Bemu Storefront?
-		 <a href="register.html">Create your Bemu account</a>
-                </p>
-            </div>
-        </section>
-    </main>
+        <p class="login-helper-text">
+          New to Bemu Storefront?
+          <a href="register.html">Create your Bemu account</a>
+        </p>
+      </div>
+    </section>
+  </main>
 
-    <footer>
-       <p> &copy; 2025 Bemu. All rights reserved.<p>
-    </footer>
-<script>
-const API_BASE = 'http://192.168.10.12:3000/'; // backend VM
+  <footer>
+    <p>&copy; 2025 Bemu. All rights reserved.</p>
+  </footer>
 
-document.getElementById('login-form').addEventListener('submit', async function (e) {
-  e.preventDefault();
+  <!-- 🔹 login logic + "remember" for THIS TAB ONLY -->
+  <script>
+  const API_BASE = 'http://192.168.10.12:3000'; // backend IP + port
 
-  const email = document.getElementById('email').value.trim();
-  const password = document.getElementById('password').value;
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('login-form');
 
-  if (!email  !password) {
-    alert('Email and password are required.');
-    return;
-  }
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
 
-  try {
-    const res = await fetch(API_BASE + '/api/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!email || !password) {
+        alert('Email and password are required.');
+        return;
+      }
+
+      try {
+        const res = await fetch(API_BASE + '/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (!res.ok) {
+          alert(data.message || 'Login failed.');
+          return;
+        }
+
+        // ✅ mark this tab as logged in (no cookies)
+        sessionStorage.setItem('bemuUser', email);
+
+        alert('Login successful!');
+        window.location.href = 'index.html';  // go to homepage
+      } catch (err) {
+        console.error('Login error:', err);
+        alert('Error connecting to server.');
+      }
     });
-
-    const data = await res.json().catch(() => ({}));
-
-    if (!res.ok) {
-      alert(data.message  'Login failed.');
-      return;
-    }
-
-    sessionStorage.setItem('bemuUser', email);
-
-    alert('Login successful!');
-    // Go to homepage
-    window.location.href = 'index.html';
-  } catch (err) {
-    console.error(err);
-    alert('Error connecting to server.');
-  }
-});
+  });
 </script>
 </body>
 </html>
