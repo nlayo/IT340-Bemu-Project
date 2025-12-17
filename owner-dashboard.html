@@ -8,12 +8,12 @@
 </head>
 <body>
   <header class="site-header">
-    <div class="logo">Bemu</div>
-    <nav class="main-nav">
-      <a href="index.html">Customer View</a>
-      <a href="login.html">Log out</a>
-    </nav>
-  </header>
+  <div class="logo">Bemu</div>
+  <nav class="main-nav">
+    <a href="index.html">Customer View</a>
+    <a href="#" id="owner-logout-link">Log out</a>
+  </nav>
+</header>
 
   <main class="auth-page">
     <section class="auth-card owner-card">
@@ -121,6 +121,17 @@
       ownerInfo.textContent =
         `Logged in as: ${user.email} (role: ${user.role})`;
     }
+
+	// ----- OWNER LOGOUT BUTTON -----
+	const ownerLogout = document.getElementById('owner-logout-link');
+	if (ownerLogout) {
+  	  ownerLogout.addEventListener('click', function (e) {
+   		 e.preventDefault();
+   		 localStorage.removeItem('bemuUser');   // clear login
+   		 window.location.href = 'login.html';   // back to login page
+	  });
+	}
+
 
     // ---------- STOREFRONT SETTINGS ----------
     const storeForm = document.getElementById('storefront-form');

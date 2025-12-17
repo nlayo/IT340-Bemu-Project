@@ -495,3 +495,8 @@ footer {
 .btn-delete:hover {
   background-color: #991b1b;
 }
+.user-status {
+  margin: 10px 20px;
+  font-size: 0.9rem;
+  color: #555;
+}

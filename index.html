@@ -9,24 +9,33 @@
 <body>
 
     <header class="top-header">
-        <div class="logo">Bemu</div>
-	<button id="logout-btn" class="login-btn">Log out</button>
-        <div class="search-bar">
-            <input type="text" placeholder="Search for products..." />
-            <button>Search</button>
-        </div>
+  <div class="logo">
+    <a href="index.html" class="logo-link">Bemu</a>
+  </div>
+
+  <div class="search-bar">
+    <input type="text" placeholder="Search for products..." />
+    <button type="button">Search</button>
+  </div>
 
   <div class="header-links">
     <a href="#">Orders</a>
     <a href="#">Cart</a>
 
-    <span id="user-status"></span>
-    <button id="auth-btn" class="login-btn"></button>
-  </div>
+    <!-- Only shown for owner accounts via JS -->
+    <a href="owner-dashboard.html" id="owner-link" style="display:none;">
+      Owner Dashboard
+    </a>
 
-	 <div id="user-status"></div>
-  <button id="logout-btn" class="login-btn">Log out</button>
-    </header>
+    <!-- This text & behavior will change between Sign in / Log out -->
+    <button class="login-btn" id="login-btn">Sign in</button>
+  </div>
+</header>
+
+
+<p id="user-status" class="user-status"></p>
+
+
     <p id="welcome to Bemu"></p>
 
     
@@ -92,31 +101,53 @@
     </footer>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const email = sessionStorage.getItem('bemuUser');
-    const statusEl = document.getElementById('user-status');
-    const authBtn = document.getElementById('auth-btn');
-
-    if (!statusEl || !authBtn) {
-      return; // safety
+    // Read user object saved by login.html
+    const rawUser = localStorage.getItem('bemuUser');
+    let user = null;
+    try {
+      user = rawUser ? JSON.parse(rawUser) : null;
+    } catch (e) {
+      user = null;
     }
 
-    if (email) {
-      // ✅ Logged in
-      statusEl.textContent = 'Signed in as ' + email;
-      authBtn.textContent = 'Log out';
+    const statusEl = document.getElementById('user-status');
+    const authBtn  = document.getElementById('auth-btn');      // your existing button
+    const ownerLink = document.getElementById('owner-link');   // Owner Dashboard link (may not exist on every page)
 
+    if (!statusEl || !authBtn) return;
+
+    function goToLogin() {
+      window.location.href = 'login.html';
+    }
+
+    if (user) {
+      // ----- LOGGED IN -----
+      // Show Owner Dashboard only for owner accounts
+      if (ownerLink) {
+        if (user.isOwner) {
+          ownerLink.style.display = 'inline-block';
+        } else {
+          ownerLink.style.display = 'none';
+        }
+      }
+
+      statusEl.textContent =
+        'Logged in as: ' + user.email + ' (' + user.role + ')';
+
+      authBtn.textContent = 'Log out';
       authBtn.onclick = function () {
-        sessionStorage.removeItem('bemuUser');
-        window.location.href = 'login.html';
+        localStorage.removeItem('bemuUser');
+        goToLogin();
       };
     } else {
-      // ❌ Not logged in
-      statusEl.textContent = ''; // or 'Guest'
-      authBtn.textContent = 'Sign in';
+      // ----- NOT LOGGED IN -----
+      if (ownerLink) {
+        ownerLink.style.display = 'none';
+      }
 
-      authBtn.onclick = function () {
-        window.location.href = 'login.html';
-      };
+      statusEl.textContent = 'Not logged in.';
+      authBtn.textContent = 'Sign in';
+      authBtn.onclick = goToLogin;
     }
   });
 </script>
