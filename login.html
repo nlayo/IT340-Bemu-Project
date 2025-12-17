@@ -68,48 +68,56 @@
     <p>&copy; 2025 Bemu. All rights reserved.</p>
   </footer>
 
-  <!-- 🔹 login logic + "remember" for THIS TAB ONLY -->
   <script>
-  const API_BASE = 'http://192.168.10.12:3000'; // backend IP + port
+  const loginForm = document.querySelector('.login-form');
 
-  document.addEventListener('DOMContentLoaded', function () {
-    const form = document.getElementById('login-form');
+  loginForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
 
-    form.addEventListener('submit', async function (e) {
-      e.preventDefault();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
 
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
+    if (!email || !password) {
+      alert('Please enter email and password');
+      return;
+    }
 
-      if (!email || !password) {
-        alert('Email and password are required.');
+    try {
+      const response = await fetch('http://192.168.10.12:3000/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(data.message || 'Login failed');
         return;
       }
 
-      try {
-        const res = await fetch(API_BASE + '/api/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password })
-        });
+      // Save basic info in the browser
+      localStorage.setItem('bemuUser', JSON.stringify({
+        userID: data.userID,
+        email: data.email,
+        role: data.role,
+        isOwner: data.isOwner
+      }));
 
-        const data = await res.json().catch(() => ({}));
-
-        if (!res.ok) {
-          alert(data.message || 'Login failed.');
-          return;
-        }
-
-        // ✅ mark this tab as logged in (no cookies)
-        sessionStorage.setItem('bemuUser', email);
-
-        alert('Login successful!');
-        window.location.href = 'index.html';  // go to homepage
-      } catch (err) {
-        console.error('Login error:', err);
-        alert('Error connecting to server.');
+      // Different behavior for owner vs customer
+      if (data.isOwner) {
+        // OWNER: go to owner dashboard
+        alert('Welcome, store owner!');
+        window.location.href = 'owner-dashboard.html';
+      } else {
+        // CUSTOMER: go to normal homepage
+        alert('Login successful! Welcome to Bemu.');
+        window.location.href = 'index.html';
       }
-    });
+    } catch (err) {
+      console.error('Login error:', err);
+      alert('Error connecting to server.');
+    }
   });
 </script>
 </body>

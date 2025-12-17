@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bemu Owner Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="logo">Bemu</div>
+    <nav class="main-nav">
+      <a href="index.html">Customer View</a>
+      <a href="login.html">Log out</a>
+    </nav>
+  </header>
+
+  <main class="auth-page">
+    <section class="auth-card">
+      <h1>Owner Dashboard</h1>
+      <p id="owner-info">Loading owner info…</p>
+
+      <div class="owner-actions">
+        <p>In a full project, this is where you would:</p>
+        <ul>
+          <li>Edit storefront information (name, banner, description)</li>
+          <li>Manage products (add / edit / delete)</li>
+          <li>See recent orders and customer activity</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2025 Bemu. Owner Portal.</p>
+  </footer>
+
+  <script>
+    // Read user info from localStorage
+    const raw = localStorage.getItem('bemuUser');
+    let user = null;
+    try {
+      user = raw ? JSON.parse(raw) : null;
+    } catch (e) {
+      user = null;
+    }
+
+    const info = document.getElementById('owner-info');
+
+    if (!user || !user.isOwner) {
+      info.textContent = 'Access denied. You must be logged in as the store owner.';
+      // Optionally kick them back to login after a pause
+      setTimeout(() => {
+        window.location.href = 'login.html';
+      }, 2500);
+    } else {
+      info.textContent = `Logged in as: ${user.email} (role: ${user.role})`;
+    }
+  </script>
+</body>
+</html>
