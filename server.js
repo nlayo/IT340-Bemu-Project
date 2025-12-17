@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors()); 
 app.use(express.json());
-
+const pendingMfa = new Map();  //ADDED MFA STORAGE OUTSIDE ROUTES
 const http = require('http');
 const LOGGING_SERVER_HOST = '192.168.10.13';
 const LOGGING_SERVER_PORT = 4000;
@@ -69,7 +69,22 @@ mongoose
 app.get('/', (req, res) => {
    res.send('Bemu backend is up');
 });
-
+//added new MFA verify route 
+app.post("/api/mfa/verify", (req, res) => {
+  const { email, code } = req.body || {};
+  if (!email || !code){
+    return res.status(400).json({ message: "missing email or code" });
+  }
+  const expected = pendingMfa.get(email);
+  if (!expected) {
+    return res.status(400).json({ message: "No MFA pending for this user"});
+  }
+  if (String(code) !== String(expected)){
+    return res.status(401).json({ message: "Invalid code" });
+  }
+  pendingMfa.delete(email);
+  return res.json({ message: "MFA success" });
+});
 app.post('/api/register', async (req,res) => {
   try {
     const { email, password } = req.body; 
@@ -139,13 +154,16 @@ app.post('/api/login', async (req, res) => {
 	} 
 
   const role = user.role || 'customer'; 
+  const code = String(Math.floor(100000 + Math.random() * 900000));
+  pendingMfa.set(email, code);
 
   return res.json({
-	message: 'Login successful', 
-	userID: user._id, 
+	next: "mfa",  
 	email: user.email, 
+        code,
 	role, 
 	isOwner: role === 'owner', 
+        userID: user._id,
   }); 
 
 } catch (err) {

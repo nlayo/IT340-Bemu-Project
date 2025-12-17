@@ -1,2 +1,0 @@
-DRIVER=kgdboc
-MODALIAS=platform:kgdboc
