@@ -6,6 +6,7 @@ const cors = require('cors');
 const bcrypt = require('bcryptjs'); 
 
 const User = require('./models/User');
+const OWNER_EMAIL = 'bemuowner@bemu.com'; 
 
 const app = express(); 
 const PORT = process.env.PORT || 3000; 
@@ -82,17 +83,24 @@ app.post('/api/register', async (req,res) => {
    }
 
    const passwordHash = await bcrypt.hash(password, 10); 
-   const user = await User.create({
+   
+   let role = 'customer'; 
+     if (email === OWNER_EMAIL) {
+	role = 'owner'; 
+   }
+
+  const user = await User.create({
      email, 
-     passwordHash, 
+     passwordHash,
+     role,  
    }); 
 
 
    return res.status(201).json({
      message: 'User registered successfully', 
      userID: user._id, 
-     email: user.email
-
+     email: user.email,
+     role: user.role, 
    }); 
 
   } catch (err) {
@@ -103,29 +111,48 @@ app.post('/api/register', async (req,res) => {
 
 app.post('/api/login', async (req, res) => {
   try {
-    const { email, password } = req.body; 
-    if (!email, !password) {
-      return res.status(400).json({ message: 'Email and password are required' }); 
-    }
+    console.log('LOGGING SCRIPT:', {
+	method: req.method, 
+	url: req.originalUrl, 
+	ip: req.ip, 
+	time: new Date().toISOString(), 
+}); 
+  const { email, password } = req.body || {}; 
+  if (!email || !password) {
+	return res 
+	  .status(400)
+	  .json({ mgessage: 'Email and password are required' }); 
+	}
+  const user = await User.findOne({ email }); 
 
-   const user = await User.findOne({ email }); 
+  if (!user) {
+	return res 
+	  .status(401)
+	  .json({ message: 'Invalid email or password' }); 
+	} 
 
-   if (!user) {
-      return res.status(401).json({ message: 'Invalid email or password'}); 
+  const isMatch = await bcrypt.compare(password, user.passwordHash);
+  if (!isMatch) {
+	return res 
+	  .status(401)
+	  .json ({ message: 'Invalid email or password' });
+	} 
 
-   }
+  const role = user.role || 'customer'; 
 
-   const isMatch = await bcrypt.compare(password, user.passwordHash); 
-    if (!isMatch) {
-      return res.status(401).json({ message: 'Invalid email or password'}); 
-    }
-   
-    return res.json({ message: 'Login successful' }); 
-     } catch (err) {
-        console.error('Login error:', err); 
-        return res.status(500).json({ message: 'Server error' }); 
-     } 
-});
+  return res.json({
+	message: 'Login successful', 
+	userID: user._id, 
+	email: user.email, 
+	role, 
+	isOwner: role === 'owner', 
+  }); 
+
+} catch (err) {
+  console.error('Login error:', err);
+  return res.status(500).json({ message: 'Server error' }); 
+ }
+}); 
 
 app.post('/api/log-test', (req, res) => {
   const { source, message } = req.body || {}; 
