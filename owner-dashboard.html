@@ -16,17 +16,81 @@
   </header>
 
   <main class="auth-page">
-    <section class="auth-card">
+    <section class="auth-card owner-card">
       <h1>Owner Dashboard</h1>
       <p id="owner-info">Loading owner info…</p>
 
-      <div class="owner-actions">
-        <p>In a full project, this is where you would:</p>
-        <ul>
-          <li>Edit storefront information (name, banner, description)</li>
-          <li>Manage products (add / edit / delete)</li>
-          <li>See recent orders and customer activity</li>
-        </ul>
+      <div class="owner-sections">
+        <!-- Storefront settings -->
+        <section class="owner-section">
+          <h2>Edit Storefront</h2>
+          <p class="owner-note">
+            Update how your Bemu storefront appears to customers.
+          </p>
+
+          <form id="storefront-form">
+            <div class="form-row">
+              <label for="store-name">Store name</label>
+              <input id="store-name" type="text" placeholder="Bemu Storefront" />
+            </div>
+
+            <div class="form-row">
+              <label for="store-tagline">Tagline</label>
+              <input id="store-tagline" type="text" placeholder="Great deals, fast shipping" />
+            </div>
+
+            <div class="form-row">
+              <label for="store-banner">Homepage banner text</label>
+              <textarea id="store-banner" rows="3"
+                placeholder="Welcome to Bemu – your one-stop shop for tech and more."></textarea>
+            </div>
+
+            <button type="submit" class="primary-btn">Save storefront changes</button>
+            <span id="storefront-status" class="owner-status"></span>
+          </form>
+        </section>
+
+        <!-- Product management -->
+        <section class="owner-section">
+          <h2>Manage Products</h2>
+          <p class="owner-note">
+            Add simple demo products to your storefront (stored in the browser for this project).
+          </p>
+
+          <form id="product-form">
+            <div class="form-row">
+              <label for="product-name">Product name</label>
+              <input id="product-name" type="text" placeholder="Wireless Mouse" required />
+            </div>
+
+            <div class="form-row">
+              <label for="product-price">Price ($)</label>
+              <input id="product-price" type="number" step="0.01" min="0" placeholder="19.99" required />
+            </div>
+
+            <div class="form-row">
+              <label for="product-stock">Stock</label>
+              <input id="product-stock" type="number" min="0" placeholder="25" required />
+            </div>
+
+            <button type="submit" class="primary-btn">Add product</button>
+            <span id="product-status" class="owner-status"></span>
+          </form>
+
+          <table class="owner-products-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Price ($)</th>
+                <th>Stock</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="products-body">
+              <!-- Filled by JavaScript -->
+            </tbody>
+          </table>
+        </section>
       </div>
     </section>
   </main>
@@ -36,26 +100,166 @@
   </footer>
 
   <script>
-    // Read user info from localStorage
-    const raw = localStorage.getItem('bemuUser');
+    // ---------- OWNER ACCESS CHECK ----------
+    const rawUser = localStorage.getItem('bemuUser');
     let user = null;
     try {
-      user = raw ? JSON.parse(raw) : null;
+      user = rawUser ? JSON.parse(rawUser) : null;
     } catch (e) {
       user = null;
     }
 
-    const info = document.getElementById('owner-info');
+    const ownerInfo = document.getElementById('owner-info');
 
     if (!user || !user.isOwner) {
-      info.textContent = 'Access denied. You must be logged in as the store owner.';
-      // Optionally kick them back to login after a pause
+      ownerInfo.textContent =
+        'Access denied. You must be logged in as the store owner.';
       setTimeout(() => {
         window.location.href = 'login.html';
       }, 2500);
     } else {
-      info.textContent = `Logged in as: ${user.email} (role: ${user.role})`;
+      ownerInfo.textContent =
+        `Logged in as: ${user.email} (role: ${user.role})`;
     }
+
+    // ---------- STOREFRONT SETTINGS ----------
+    const storeForm = document.getElementById('storefront-form');
+    const storeNameInput = document.getElementById('store-name');
+    const storeTaglineInput = document.getElementById('store-tagline');
+    const storeBannerInput = document.getElementById('store-banner');
+    const storeStatus = document.getElementById('storefront-status');
+
+    // Load saved storefront (from localStorage only, for demo)
+    const savedStorefrontRaw = localStorage.getItem('bemuStorefront');
+    if (savedStorefrontRaw) {
+      try {
+        const savedStorefront = JSON.parse(savedStorefrontRaw);
+        if (savedStorefront.name) storeNameInput.value = savedStorefront.name;
+        if (savedStorefront.tagline) storeTaglineInput.value = savedStorefront.tagline;
+        if (savedStorefront.banner) storeBannerInput.value = savedStorefront.banner;
+      } catch (e) {
+        console.error('Error reading saved storefront:', e);
+      }
+    }
+
+    storeForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const storefront = {
+        name: storeNameInput.value.trim(),
+        tagline: storeTaglineInput.value.trim(),
+        banner: storeBannerInput.value.trim()
+      };
+
+      localStorage.setItem('bemuStorefront', JSON.stringify(storefront));
+      storeStatus.textContent = 'Storefront changes saved (local demo only).';
+
+      setTimeout(() => {
+        storeStatus.textContent = '';
+      }, 2500);
+    });
+
+    // ---------- PRODUCT MANAGEMENT ----------
+    const productForm = document.getElementById('product-form');
+    const productNameInput = document.getElementById('product-name');
+    const productPriceInput = document.getElementById('product-price');
+    const productStockInput = document.getElementById('product-stock');
+    const productStatus = document.getElementById('product-status');
+    const productsBody = document.getElementById('products-body');
+
+    let products = [];
+    const savedProductsRaw = localStorage.getItem('bemuProducts');
+    if (savedProductsRaw) {
+      try {
+        products = JSON.parse(savedProductsRaw) || [];
+      } catch (e) {
+        products = [];
+      }
+    }
+
+    function saveProducts() {
+      localStorage.setItem('bemuProducts', JSON.stringify(products));
+    }
+
+    function renderProducts() {
+      productsBody.innerHTML = '';
+
+      if (products.length === 0) {
+        const row = document.createElement('tr');
+        const cell = document.createElement('td');
+        cell.colSpan = 4;
+        cell.textContent = 'No products yet. Add one above.';
+        row.appendChild(cell);
+        productsBody.appendChild(row);
+        return;
+      }
+
+      products.forEach((p, index) => {
+        const row = document.createElement('tr');
+
+        const nameCell = document.createElement('td');
+        nameCell.textContent = p.name;
+
+        const priceCell = document.createElement('td');
+        priceCell.textContent = p.price.toFixed(2);
+
+        const stockCell = document.createElement('td');
+        stockCell.textContent = p.stock;
+
+        const actionCell = document.createElement('td');
+        const delBtn = document.createElement('button');
+        delBtn.textContent = 'Delete';
+        delBtn.className = 'btn-delete';
+        delBtn.dataset.index = index;
+        actionCell.appendChild(delBtn);
+
+        row.appendChild(nameCell);
+        row.appendChild(priceCell);
+        row.appendChild(stockCell);
+        row.appendChild(actionCell);
+
+        productsBody.appendChild(row);
+      });
+    }
+
+    // Initial render on page load
+    renderProducts();
+
+    productForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const name = productNameInput.value.trim();
+      const price = parseFloat(productPriceInput.value);
+      const stock = parseInt(productStockInput.value, 10);
+
+      if (!name || isNaN(price) || isNaN(stock)) {
+        productStatus.textContent = 'Please enter a name, price, and stock.';
+        return;
+      }
+
+      products.push({ name, price, stock });
+      saveProducts();
+      renderProducts();
+
+      productForm.reset();
+      productStatus.textContent = 'Product added.';
+      setTimeout(() => {
+        productStatus.textContent = '';
+      }, 2500);
+    });
+
+    // Handle delete buttons
+    productsBody.addEventListener('click', function (e) {
+      if (e.target.matches('.btn-delete')) {
+        const index = parseInt(e.target.dataset.index, 10);
+        if (!isNaN(index)) {
+          products.splice(index, 1);
+          saveProducts();
+          renderProducts();
+        }
+      }
+    });
   </script>
 </body>
 </html>
+
