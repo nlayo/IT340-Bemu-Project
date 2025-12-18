@@ -13,10 +13,19 @@
     <a href="index.html" class="logo-link">Bemu</a>
   </div>
 
-  <div class="search-bar">
-    <input type="text" placeholder="Search for products..." />
-    <button type="button">Search</button>
-  </div>
+<div class="search-bar">
+  <input
+    id="headerSearch"
+    type="text"
+    placeholder="Search for products..."
+  />
+  <button
+    type="button"
+    onclick="location.href='search.html?q=' + encodeURIComponent(document.getElementById('headerSearch').value)"
+  >
+    Search
+  </button>
+</div>
 
   <div class="header-links">
     <a href="#">Orders</a>

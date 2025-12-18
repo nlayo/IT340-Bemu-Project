@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Search - Bemu</title>
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <header class="top-header">
+    <div class="logo"><a href="index.html">Bemu</a></div>
+    <div class="search-bar">
+      <input id="q" type="text" placeholder="Search for products..." />
+      <button id="btn">Search</button>
+    </div>
+  </header>
+
+  <main class="page">
+    <h1>Search Results</h1>
+    <div id="results" class="product-grid"></div>
+  </main>
+
+  <script src="products.js"></script>
+  <script>
+    const qInput = document.getElementById("q");
+    const btn = document.getElementById("btn");
+    const resultsEl = document.getElementById("results");
+
+    function render(products) {
+      resultsEl.innerHTML = products.map(p => `
+        <article class="product-card">
+          <img src="${p.image}" alt="${p.name}" class="product-img"/>
+          <div class="product-title">${p.name}</div>
+          <div class="product-price">$${p.price.toFixed(2)}</div>
+          <button>Add to Cart</button>
+        </article>
+      `).join("");
+    }
+
+    function search() {
+      const q = qInput.value.trim().toLowerCase();
+      const products = window.PRODUCTS.filter(p =>
+        p.name.toLowerCase().includes(q) ||
+        (p.tags || []).some(t => t.toLowerCase().includes(q))
+      );
+      render(products);
+    }
+
+    const params = new URLSearchParams(location.search);
+    const initial = params.get("q") || "";
+    qInput.value = initial;
+
+    btn.addEventListener("click", search);
+    qInput.addEventListener("keydown", (e) => { if (e.key === "Enter") search(); });
+
+    render(window.PRODUCTS); // show all by default
+    if (initial) search();
+  </script>
+</body>
+</html>
