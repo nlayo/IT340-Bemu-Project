@@ -112,61 +112,43 @@
     </footer>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  // Read user info from sessionStorage
-  const raw = sessionStorage.getItem('bemuUser');
   let user = null;
-
   try {
-    if (raw) {
-      user = JSON.parse(raw);
-    }
+    const rawUser = localStorage.getItem('bemuUser');
+    user = rawUser ? JSON.parse(rawUser) : null;
   } catch (e) {
-    console.error('Error parsing bemuUser from sessionStorage:', e);
     user = null;
   }
 
-  const statusEl   = document.getElementById('user-status');
-  const authBtn    = document.getElementById('auth-btn');
-  const ownerLink  = document.getElementById('owner-link');
+  const statusEl  = document.getElementById('user-status'); // span in header
+  const authBtn   = document.getElementById('auth-btn');     // Sign in / Log out button
+  const ownerLink = document.getElementById('owner-link');   // "Owner Dashboard" link
 
-  if (!statusEl || !authBtn) {
-    return; // safety
+  if (statusEl && authBtn) {
+    if (user && user.email) {
+      // ✅ Logged in
+      statusEl.textContent = 'Logged in as ' + user.email;
+      authBtn.textContent = 'Log out';
+
+      authBtn.onclick = function () {
+        localStorage.removeItem('bemuUser');
+        window.location.href = 'login.html';
+      };
+    } else {
+      // ❌ Not logged in
+      statusEl.textContent = '';
+      authBtn.textContent = 'Sign in';
+
+      authBtn.onclick = function () {
+        window.location.href = 'login.html';
+      };
+    }
   }
 
-  // If user is logged in
-  if (user && user.email) {
-    statusEl.textContent = 'Logged in as ' + user.email;
-    authBtn.textContent  = 'Log out';
-
-    authBtn.onclick = function (e) {
-      e.preventDefault();
-      sessionStorage.removeItem('bemuUser');
-      window.location.href = 'login.html';
-    };
-
-    // If this user is the owner, show the Owner Dashboard link
-    if (ownerLink) {
-      if (user.isOwner === true || user.role === 'owner') {
-        ownerLink.style.display = 'inline-block';
-      } else {
-        ownerLink.style.display = 'none';
-      }
-    }
-  } else {
-    // Not logged in
-    statusEl.textContent = '';
-    authBtn.textContent  = 'Sign in';
-
-    authBtn.onclick = function (e) {
-      e.preventDefault();
-      window.location.href = 'login.html';
-    };
-
-    if (ownerLink) {
-      ownerLink.style.display = 'none';
-    }
+  if (ownerLink) {
+    ownerLink.style.display = (user && user.isOwner) ? 'inline-block' : 'none';
   }
 });
-</script>  
- </body>
+</script>
+</body>
 </html>

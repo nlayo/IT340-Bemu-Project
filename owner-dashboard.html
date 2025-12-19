@@ -99,152 +99,169 @@
     <p>&copy; 2025 Bemu. Owner Portal.</p>
   </footer>
 
-  <script>
-    // ---------- OWNER ACCESS CHECK ----------
-    const rawUser = localStorage.getItem('bemuUser');
-    let user = null;
+ <script>
+document.addEventListener('DOMContentLoaded', function () {
+  // ---------- OWNER ACCESS CHECK ----------
+  const rawUser = localStorage.getItem('bemuUser');
+  let user = null;
+  try {
+    user = rawUser ? JSON.parse(rawUser) : null;
+  } catch (e) {
+    user = null;
+  }
+
+  const ownerInfo   = document.getElementById('owner-info');
+  const ownerLogout = document.getElementById('owner-logout-link');
+
+  // If there's no owner-info element, just stop (wrong page / markup)
+  if (!ownerInfo) return;
+
+  // Not logged in as owner → show message then send back to login
+  if (!user || !user.isOwner) {
+    ownerInfo.textContent =
+      'Access denied. You must be logged in as the store owner.';
+    setTimeout(() => {
+      window.location.href = 'login.html';
+    }, 2500);
+    return;
+  }
+
+  // Logged in as owner
+  ownerInfo.textContent =
+    `Logged in as: ${user.email} (role: ${user.role})`;
+
+  // ----- OWNER LOGOUT BUTTON -----
+  if (ownerLogout) {
+    ownerLogout.addEventListener('click', function (e) {
+      e.preventDefault();
+      localStorage.removeItem('bemuUser');
+      window.location.href = 'login.html';
+    });
+  }
+
+  // ---------- STOREFRONT SETTINGS ----------
+  const storefrontForm   = document.getElementById('storefront-form');
+  const storeNameInput   = document.getElementById('store-name');
+  const storeTaglineInput= document.getElementById('store-tagline');
+  const storeBannerInput = document.getElementById('store-banner');
+  const storeStatus      = document.getElementById('store-status');
+
+  // Load saved storefront (from localStorage, demo-only)
+  let storefront = { name: '', tagline: '', banner: '' };
+  const savedStorefrontRaw = localStorage.getItem('bemuStorefront');
+
+  if (savedStorefrontRaw) {
     try {
-      user = rawUser ? JSON.parse(rawUser) : null;
+      const saved = JSON.parse(savedStorefrontRaw);
+      storefront = Object.assign(storefront, saved);
     } catch (e) {
-      user = null;
+      console.error('Error reading saved storefront:', e);
     }
+  }
 
-    const ownerInfo = document.getElementById('owner-info');
+  // Pre-fill form fields
+  if (storeNameInput)    storeNameInput.value    = storefront.name   || '';
+  if (storeTaglineInput) storeTaglineInput.value = storefront.tagline|| '';
+  if (storeBannerInput)  storeBannerInput.value  = storefront.banner || '';
 
-    if (!user || !user.isOwner) {
-      ownerInfo.textContent =
-        'Access denied. You must be logged in as the store owner.';
-      setTimeout(() => {
-        window.location.href = 'login.html';
-      }, 2500);
-    } else {
-      ownerInfo.textContent =
-        `Logged in as: ${user.email} (role: ${user.role})`;
-    }
-
-	// ----- OWNER LOGOUT BUTTON -----
-	const ownerLogout = document.getElementById('owner-logout-link');
-	if (ownerLogout) {
-  	  ownerLogout.addEventListener('click', function (e) {
-   		 e.preventDefault();
-   		 localStorage.removeItem('bemuUser');   // clear login
-   		 window.location.href = 'login.html';   // back to login page
-	  });
-	}
-
-
-    // ---------- STOREFRONT SETTINGS ----------
-    const storeForm = document.getElementById('storefront-form');
-    const storeNameInput = document.getElementById('store-name');
-    const storeTaglineInput = document.getElementById('store-tagline');
-    const storeBannerInput = document.getElementById('store-banner');
-    const storeStatus = document.getElementById('storefront-status');
-
-    // Load saved storefront (from localStorage only, for demo)
-    const savedStorefrontRaw = localStorage.getItem('bemuStorefront');
-    if (savedStorefrontRaw) {
-      try {
-        const savedStorefront = JSON.parse(savedStorefrontRaw);
-        if (savedStorefront.name) storeNameInput.value = savedStorefront.name;
-        if (savedStorefront.tagline) storeTaglineInput.value = savedStorefront.tagline;
-        if (savedStorefront.banner) storeBannerInput.value = savedStorefront.banner;
-      } catch (e) {
-        console.error('Error reading saved storefront:', e);
-      }
-    }
-
-    storeForm.addEventListener('submit', function (e) {
+  // Save storefront on submit
+  if (storefrontForm) {
+    storefrontForm.addEventListener('submit', function (e) {
       e.preventDefault();
 
-      const storefront = {
-        name: storeNameInput.value.trim(),
-        tagline: storeTaglineInput.value.trim(),
-        banner: storeBannerInput.value.trim()
-      };
+      storefront.name   = storeNameInput.value.trim();
+      storefront.tagline= storeTaglineInput.value.trim();
+      storefront.banner = storeBannerInput.value.trim();
 
       localStorage.setItem('bemuStorefront', JSON.stringify(storefront));
-      storeStatus.textContent = 'Storefront changes saved (local demo only).';
 
-      setTimeout(() => {
-        storeStatus.textContent = '';
-      }, 2500);
+      if (storeStatus) {
+        storeStatus.textContent = 'Storefront changes saved (local demo only).';
+        setTimeout(() => { storeStatus.textContent = ''; }, 2500);
+      }
     });
+  }
 
-    // ---------- PRODUCT MANAGEMENT ----------
-    const productForm = document.getElementById('product-form');
-    const productNameInput = document.getElementById('product-name');
-    const productPriceInput = document.getElementById('product-price');
-    const productStockInput = document.getElementById('product-stock');
-    const productStatus = document.getElementById('product-status');
-    const productsBody = document.getElementById('products-body');
+  // ---------- PRODUCT MANAGEMENT ----------
+  const productForm       = document.getElementById('product-form');
+  const productNameInput  = document.getElementById('product-name');
+  const productPriceInput = document.getElementById('product-price');
+  const productStockInput = document.getElementById('product-stock');
+  const productStatus     = document.getElementById('product-status');
+  const productsBody      = document.getElementById('products-body');
 
-    let products = [];
-    const savedProductsRaw = localStorage.getItem('bemuProducts');
-    if (savedProductsRaw) {
-      try {
-        products = JSON.parse(savedProductsRaw) || [];
-      } catch (e) {
-        products = [];
-      }
+  let products = [];
+  const savedProductsRaw = localStorage.getItem('bemuProducts');
+  if (savedProductsRaw) {
+    try {
+      products = JSON.parse(savedProductsRaw) || [];
+    } catch (e) {
+      products = [];
+    }
+  }
+
+  function saveProducts() {
+    localStorage.setItem('bemuProducts', JSON.stringify(products));
+  }
+
+  function renderProducts() {
+    if (!productsBody) return;
+    productsBody.innerHTML = '';
+
+    if (products.length === 0) {
+      const row  = document.createElement('tr');
+      const cell = document.createElement('td');
+      cell.colSpan = 4;
+      cell.textContent = 'No products yet. Add one above.';
+      row.appendChild(cell);
+      productsBody.appendChild(row);
+      return;
     }
 
-    function saveProducts() {
-      localStorage.setItem('bemuProducts', JSON.stringify(products));
-    }
+    products.forEach((p, index) => {
+      const row = document.createElement('tr');
 
-    function renderProducts() {
-      productsBody.innerHTML = '';
+      const nameCell = document.createElement('td');
+      nameCell.textContent = p.name;
+      row.appendChild(nameCell);
 
-      if (products.length === 0) {
-        const row = document.createElement('tr');
-        const cell = document.createElement('td');
-        cell.colSpan = 4;
-        cell.textContent = 'No products yet. Add one above.';
-        row.appendChild(cell);
-        productsBody.appendChild(row);
-        return;
-      }
+      const priceCell = document.createElement('td');
+      priceCell.textContent = `$${Number(p.price).toFixed(2)}`;
+      row.appendChild(priceCell);
 
-      products.forEach((p, index) => {
-        const row = document.createElement('tr');
+      const stockCell = document.createElement('td');
+      stockCell.textContent = p.stock;
+      row.appendChild(stockCell);
 
-        const nameCell = document.createElement('td');
-        nameCell.textContent = p.name;
+      const actionCell = document.createElement('td');
+      const delBtn = document.createElement('button');
+      delBtn.textContent = 'Delete';
+      delBtn.className = 'btn-delete';
+      delBtn.dataset.index = index;
+      actionCell.appendChild(delBtn);
+      row.appendChild(actionCell);
 
-        const priceCell = document.createElement('td');
-        priceCell.textContent = p.price.toFixed(2);
+      productsBody.appendChild(row);
+    });
+  }
 
-        const stockCell = document.createElement('td');
-        stockCell.textContent = p.stock;
+  // Initial render
+  renderProducts();
 
-        const actionCell = document.createElement('td');
-        const delBtn = document.createElement('button');
-        delBtn.textContent = 'Delete';
-        delBtn.className = 'btn-delete';
-        delBtn.dataset.index = index;
-        actionCell.appendChild(delBtn);
-
-        row.appendChild(nameCell);
-        row.appendChild(priceCell);
-        row.appendChild(stockCell);
-        row.appendChild(actionCell);
-
-        productsBody.appendChild(row);
-      });
-    }
-
-    // Initial render on page load
-    renderProducts();
-
+  // Add product
+  if (productForm) {
     productForm.addEventListener('submit', function (e) {
       e.preventDefault();
 
-      const name = productNameInput.value.trim();
+      const name  = productNameInput.value.trim();
       const price = parseFloat(productPriceInput.value);
       const stock = parseInt(productStockInput.value, 10);
 
       if (!name || isNaN(price) || isNaN(stock)) {
-        productStatus.textContent = 'Please enter a name, price, and stock.';
+        if (productStatus) {
+          productStatus.textContent = 'Please enter a name, price, and stock.';
+          setTimeout(() => { productStatus.textContent = ''; }, 2500);
+        }
         return;
       }
 
@@ -253,13 +270,15 @@
       renderProducts();
 
       productForm.reset();
-      productStatus.textContent = 'Product added.';
-      setTimeout(() => {
-        productStatus.textContent = '';
-      }, 2500);
+      if (productStatus) {
+        productStatus.textContent = 'Product added.';
+        setTimeout(() => { productStatus.textContent = ''; }, 2500);
+      }
     });
+  }
 
-    // Handle delete buttons
+  // Delete product
+  if (productsBody) {
     productsBody.addEventListener('click', function (e) {
       if (e.target.matches('.btn-delete')) {
         const index = parseInt(e.target.dataset.index, 10);
@@ -270,7 +289,9 @@
         }
       }
     });
-  </script>
+  }
+});
+</script>
 </body>
 </html>
 

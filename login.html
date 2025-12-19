@@ -68,7 +68,7 @@
     <p>&copy; 2025 Bemu. All rights reserved.</p>
   </footer>
 
-  <script>
+<script>
   const loginForm = document.querySelector('.login-form');
 
   loginForm.addEventListener('submit', async function (e) {
@@ -76,11 +76,6 @@
 
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
-
-    if (!email || !password) {
-      alert('Please enter email and password');
-      return;
-    }
 
     try {
       const response = await fetch('http://192.168.10.12:3000/api/login', {
@@ -96,26 +91,22 @@
         return;
       }
 
-      // Save basic info in the browser
-      localStorage.setItem('bemuUser', JSON.stringify({
-        userID: data.userID,
+      // 🔐 Save user in localStorage for ALL pages
+      const user = {
         email: data.email,
         role: data.role,
-        isOwner: data.isOwner
-      }));
+        isOwner: data.isOwner === true
+      };
+      localStorage.setItem('bemuUser', JSON.stringify(user));
 
-      // Different behavior for owner vs customer
-      if (data.isOwner) {
-        // OWNER: go to owner dashboard
-        alert('Welcome, store owner!');
+      // Redirect based on role
+      if (user.isOwner) {
         window.location.href = 'owner-dashboard.html';
       } else {
-        // CUSTOMER: go to normal homepage
-        alert('Login successful! Welcome to Bemu.');
         window.location.href = 'index.html';
       }
     } catch (err) {
-      console.error('Login error:', err);
+      console.error(err);
       alert('Error connecting to server.');
     }
   });

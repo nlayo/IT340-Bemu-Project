@@ -51,15 +51,20 @@ body {
 }
 
 .header-links {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 0.9rem;
 }
 
+/* Default header links */
 .header-links a {
-    color: white;
-    text-decoration: none;
+  color: white;
+  text-decoration: none;
+}
+
+.header-links a:hover {
+  text-decoration: underline;
 }
 
 /* Header bar for auth pages */
@@ -93,15 +98,20 @@ body {
 }
 
 /* Log In button in header */
-.login-btn {
-    padding: 8px 12px;
-    border-radius: 4px;
-    border: 1px solid #f3a847;
-    background-color: #f0c14b;
-    color: #111;
-    font-weight: bold;
-    text-decoration: none;
-    cursor: pointer;
+.login-btn,
+#auth-btn {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 4px;
+  background-color: #f0c14b;  /* Amazon-style yellow */
+  color: #111;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.login-btn:hover,
+#auth-btn:hover {
+  background-color: #ddb347;
 }
 
 /* Secondary nav */
@@ -482,6 +492,18 @@ footer {
   font-weight: 600;
 }
 
+.owner-link {
+  padding: 4px 10px;
+  border-radius: 4px;
+  background-color: #111827;  /* dark navy-ish */
+  color: #facc15;             /* yellow */
+  font-weight: 500;
+}
+
+.owner-link:hover {
+  background-color: #020617;
+}
+
 .btn-delete {
   padding: 4px 8px;
   border: none;
@@ -495,8 +517,9 @@ footer {
 .btn-delete:hover {
   background-color: #991b1b;
 }
+
 .user-status {
-  margin: 10px 20px;
-  font-size: 0.9rem;
-  color: #555;
+  color: #e5e7eb;           /* light gray */
+  font-size: 0.85rem;
+  margin-right: 4px;
 }
