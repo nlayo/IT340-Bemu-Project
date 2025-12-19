@@ -45,7 +45,7 @@
     <div class="login-card">
       <h1>Sign-In</h1>
 
-      <form id="login-form" class="login-form">
+      <form id="loginForm" class="login-form">
         <label for="email">Email</label>
         <input
           id="email"
@@ -98,22 +98,16 @@
   </footer>
 
 <script>
-  // -------- EMAIL/PASSWORD LOGIN --------
-  document.addEventListener('DOMContentLoaded', function () {
-    const loginForm = document.querySelector('#login-form');
+document.addEventListener('DOMContentLoaded', function () {
+  // ---------- NORMAL EMAIL/PASSWORD LOGIN ----------
+  const loginForm = document.querySelector('.login-form');
 
-    if (!loginForm) return;
-
+  if (loginForm) {
     loginForm.addEventListener('submit', async function (e) {
       e.preventDefault();
 
       const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
-
-      if (!email || !password) {
-        alert('Please enter email and password.');
-        return;
-      }
+      const password = document.getElementById('password').value.trim();
 
       try {
         const response = await fetch('http://192.168.10.12:3000/api/login', {
@@ -129,13 +123,12 @@
           return;
         }
 
-        // Save user in localStorage for ALL pages
+        // Save user info (used by index.html and owner-dashboard.html)
         const user = {
           email: data.email,
           role: data.role,
           isOwner: data.isOwner === true
         };
-
         localStorage.setItem('bemuUser', JSON.stringify(user));
 
         // Redirect based on role
@@ -145,84 +138,67 @@
           window.location.href = 'index.html';
         }
       } catch (err) {
-        console.error(err);
+        console.error('Error connecting to server:', err);
         alert('Error connecting to server.');
       }
     });
-  });
+  }
 
-  // -------- GOOGLE SIGN-IN LOGIN --------
+  // ---------- GOOGLE SIGN-IN BUTTON ----------
+  const googleBtn = document.getElementById('google-signin-btn');
 
-  // 1) Handle the ID token from Google and send it to your backend
-  window.handleCredentialResponse = async function (response) {
-    try {
-      const idToken = response.credential;
+  if (googleBtn) {
+    googleBtn.addEventListener('click', function () {
+      // This MUST match the route you added in server.js
+      // and that route should redirect to Google.
+      window.location.href = 'http://192.168.10.12:3000/api/auth/google';
+    });
+  }
 
-      const apiRes = await fetch('http://192.168.10.12:3000/api/google-login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ credential: idToken })
-      });
+  // ---------- HANDLE GOOGLE CALLBACK (code in URL) ----------
+  const params = new URLSearchParams(window.location.search);
+  const authCode = params.get('code');
 
-      const data = await apiRes.json();
+  if (authCode) {
+    (async () => {
+      try {
+        const response = await fetch(
+          'http://192.168.10.12:3000/api/auth/google/callback?code=' + encodeURIComponent(authCode),
+          { method: 'GET' }
+        );
 
-      if (!apiRes.ok) {
-        alert(data.message || 'Google login failed');
-        return;
+        const data = await response.json();
+
+        if (!response.ok) {
+          console.error('Google login error:', data);
+          alert(data.message || 'Error signing in with Google.');
+          return;
+        }
+
+        // Save user info from Google sign-in
+        const user = {
+          email: data.email,
+          role: data.role,
+          isOwner: data.isOwner === true
+        };
+        localStorage.setItem('bemuUser', JSON.stringify(user));
+
+        // Clean the ?code=... out of the URL
+        window.history.replaceState({}, document.title, 'login.html');
+
+        // Redirect based on role
+        if (user.isOwner) {
+          window.location.href = 'owner-dashboard.html';
+        } else {
+          window.location.href = 'index.html';
+        }
+      } catch (err) {
+        console.error('Error during Google login callback:', err);
+        alert('Error signing in with Google.');
       }
-
-      // Same shape as normal login response
-      const user = {
-        email: data.email,
-        role: data.role,
-        isOwner: data.isOwner === true
-      };
-
-      localStorage.setItem('bemuUser', JSON.stringify(user));
-
-      if (user.isOwner) {
-        window.location.href = 'owner-dashboard.html';
-      } else {
-        window.location.href = 'index.html';
-      }
-    } catch (err) {
-      console.error('Google login error:', err);
-      alert('Error signing in with Google.');
-    }
-  };
-
-  // 2) Initialize the Google button when the page finishes loading
-  window.addEventListener('load', function () {
-    // Replace this with your real client ID:
-    const CLIENT_ID = '36943721942-urkobha93977rehviocjurp4h3fckqk6.apps.googleusercontent.com';
-
-    if (!(window.google && google.accounts && google.accounts.id)) {
-      console.error('Google Identity script not loaded.');
-      return;
-    }
-
-    google.accounts.id.initialize({
-  client_id: CLIENT_ID,
-  callback: async (response) => {
-    try {
-      const res = await fetch('http://192.168.10.12:3000/api/login/google', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ credential: response.credential }),
+    })();
+  }
 });
-
-    const btnContainer = document.getElementById('g_id_signin');
-    if (btnContainer) {
-      google.accounts.id.renderButton(btnContainer, {
-        theme: 'outline',
-        size: 'large',
-        width: 320
-      });
-    }
-
-    // Optional: show One Tap UI
-    // google.accounts.id.prompt();
-  });
 </script>
 </body>
 </html>

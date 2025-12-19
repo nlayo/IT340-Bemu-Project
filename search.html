@@ -20,41 +20,38 @@
   </main>
 
   <script src="products.js"></script>
-  <script>
-    const qInput = document.getElementById("q");
-    const btn = document.getElementById("btn");
-    const resultsEl = document.getElementById("results");
+<script>
+  const qInput = document.getElementById("q");
+  const btn = document.getElementById("btn");
+  const resultsEl = document.getElementById("results");
 
-    function render(products) {
-      resultsEl.innerHTML = products.map(p => `
-        <article class="product-card">
-          <img src="${p.image}" alt="${p.name}" class="product-img"/>
-          <div class="product-title">${p.name}</div>
-          <div class="product-price">$${p.price.toFixed(2)}</div>
-          <button>Add to Cart</button>
-        </article>
-      `).join("");
-    }
+  function render(products) {
+    resultsEl.innerHTML = (products || []).map(p => `
+      <article class="product-card">
+        <img src="${p.image}" alt="${p.name}" class="product-img" />
+        <div class="product-title">${p.name}</div>
+        <div class="product-price">$${Number(p.price).toFixed(2)}</div>
+        <a href="product.html?id=${p._id}">View</a>
+      </article>
+    `).join("") || "<p>No results.</p>";
+  }
 
-    function search() {
-      const q = qInput.value.trim().toLowerCase();
-      const products = window.PRODUCTS.filter(p =>
-        p.name.toLowerCase().includes(q) ||
-        (p.tags || []).some(t => t.toLowerCase().includes(q))
-      );
-      render(products);
-    }
+  async function load(q) {
+    const url = q ? `/api/products?q=${encodeURIComponent(q)}` : `/api/products`;
+    const r = await fetch(url);
+    const data = await r.json();
+    render(data);
+  }
 
-    const params = new URLSearchParams(location.search);
-    const initial = params.get("q") || "";
-    qInput.value = initial;
+  const params = new URLSearchParams(location.search);
+  const initial = params.get("q") || "";
+  qInput.value = initial;
 
-    btn.addEventListener("click", search);
-    qInput.addEventListener("keydown", (e) => { if (e.key === "Enter") search(); });
+  btn.addEventListener("click", () => load(qInput.value.trim()));
+  qInput.addEventListener("keydown", (e) => { if (e.key === "Enter") load(qInput.value.trim()); });
 
-    render(window.PRODUCTS); // show all by default
-    if (initial) search();
-  </script>
+  load(initial);
+</script>
 </body>
 </html>
 
