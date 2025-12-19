@@ -14,31 +14,33 @@
   </div>
 
 <div class="search-bar">
-  <input
-    id="headerSearch"
-    type="text"
-    placeholder="Search for products..."
-  />
+  <input id="headerSearch" type="text" placeholder="Search for products..." />
   <button
     type="button"
-    onclick="location.href='search.html?q=' + encodeURIComponent(document.getElementById('headerSearch').value)"
+    onclick="window.location.href='search.html?q=' + encodeURIComponent(document.getElementById('headerSearch').value)"
   >
     Search
   </button>
 </div>
-
   <div class="header-links">
-    <a href="#">Orders</a>
-    <a href="#">Cart</a>
+  <a href="#">Orders</a>
+  <a href="#">Cart</a>
 
-    <!-- Only shown for owner accounts via JS -->
-    <a href="owner-dashboard.html" id="owner-link" style="display:none;">
-      Owner Dashboard
-    </a>
+  <!-- shows who is logged in -->
+  <span id="user-status" class="user-status"></span>
 
-    <!-- This text & behavior will change between Sign in / Log out -->
-    <button class="login-btn" id="login-btn">Sign in</button>
-  </div>
+  <!-- Only shown for owner accounts via JS -->
+  <a href="owner-dashboard.html"
+     id="owner-link"
+     class="owner-link"
+     style="display:none;">
+    Owner Dashboard
+  </a>
+
+  <!-- This text & behavior will change between Sign in / Log out -->
+  <button class="login-btn" id="auth-btn">Sign in</button>
+</div>
+
 </header>
 
 
@@ -109,56 +111,62 @@
        <p> &copy; 2025 Bemu. All rights reserved.<p>
     </footer>
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    // Read user object saved by login.html
-    const rawUser = localStorage.getItem('bemuUser');
-    let user = null;
-    try {
-      user = rawUser ? JSON.parse(rawUser) : null;
-    } catch (e) {
-      user = null;
+document.addEventListener('DOMContentLoaded', function () {
+  // Read user info from sessionStorage
+  const raw = sessionStorage.getItem('bemuUser');
+  let user = null;
+
+  try {
+    if (raw) {
+      user = JSON.parse(raw);
     }
+  } catch (e) {
+    console.error('Error parsing bemuUser from sessionStorage:', e);
+    user = null;
+  }
 
-    const statusEl = document.getElementById('user-status');
-    const authBtn  = document.getElementById('auth-btn');      // your existing button
-    const ownerLink = document.getElementById('owner-link');   // Owner Dashboard link (may not exist on every page)
+  const statusEl   = document.getElementById('user-status');
+  const authBtn    = document.getElementById('auth-btn');
+  const ownerLink  = document.getElementById('owner-link');
 
-    if (!statusEl || !authBtn) return;
+  if (!statusEl || !authBtn) {
+    return; // safety
+  }
 
-    function goToLogin() {
+  // If user is logged in
+  if (user && user.email) {
+    statusEl.textContent = 'Logged in as ' + user.email;
+    authBtn.textContent  = 'Log out';
+
+    authBtn.onclick = function (e) {
+      e.preventDefault();
+      sessionStorage.removeItem('bemuUser');
       window.location.href = 'login.html';
-    }
+    };
 
-    if (user) {
-      // ----- LOGGED IN -----
-      // Show Owner Dashboard only for owner accounts
-      if (ownerLink) {
-        if (user.isOwner) {
-          ownerLink.style.display = 'inline-block';
-        } else {
-          ownerLink.style.display = 'none';
-        }
-      }
-
-      statusEl.textContent =
-        'Logged in as: ' + user.email + ' (' + user.role + ')';
-
-      authBtn.textContent = 'Log out';
-      authBtn.onclick = function () {
-        localStorage.removeItem('bemuUser');
-        goToLogin();
-      };
-    } else {
-      // ----- NOT LOGGED IN -----
-      if (ownerLink) {
+    // If this user is the owner, show the Owner Dashboard link
+    if (ownerLink) {
+      if (user.isOwner === true || user.role === 'owner') {
+        ownerLink.style.display = 'inline-block';
+      } else {
         ownerLink.style.display = 'none';
       }
-
-      statusEl.textContent = 'Not logged in.';
-      authBtn.textContent = 'Sign in';
-      authBtn.onclick = goToLogin;
     }
-  });
-</script>
-</body>
+  } else {
+    // Not logged in
+    statusEl.textContent = '';
+    authBtn.textContent  = 'Sign in';
+
+    authBtn.onclick = function (e) {
+      e.preventDefault();
+      window.location.href = 'login.html';
+    };
+
+    if (ownerLink) {
+      ownerLink.style.display = 'none';
+    }
+  }
+});
+</script>  
+ </body>
 </html>

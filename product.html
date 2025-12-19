@@ -1,0 +1,74 @@
+<h1 id="name"></h1>
+<img id="img" />
+<div id="price"></div>
+<p id="desc"></p>
+
+<h2>Reviews</h2>
+<div id="reviews"></div>
+
+<h3>Leave a review</h3>
+<select id="rating">
+  <option value="5">5</option>
+  <option value="4">4</option>
+  <option value="3">3</option>
+  <option value="2">2</option>
+  <option value="1">1</option>
+</select>
+<textarea id="reviewText" placeholder="Write your review..."></textarea>
+<button id="submitReview">Submit</button>
+
+<script>
+  const params = new URLSearchParams(location.search);
+  const id = params.get("id");
+
+  function renderReviews(reviews) {
+    const el = document.getElementById("reviews");
+    if (!reviews || reviews.length === 0) {
+      el.innerHTML = "<p>No reviews yet.</p>";
+      return;
+    }
+    el.innerHTML = reviews.map(r => `
+      <div class="review">
+        <strong>${"⭐".repeat(r.rating)}</strong>
+        <p>${r.text}</p>
+        <small>${r.authorEmail || "Anonymous"} • ${new Date(r.createdAt).toLocaleString()}</small>
+      </div>
+    `).join("");
+  }
+
+  async function loadProduct() {
+    const r = await fetch(`/api/products/${id}`);
+    const p = await r.json();
+
+    document.getElementById("name").textContent = p.name;
+    document.getElementById("img").src = p.image;
+    document.getElementById("price").textContent = "$" + Number(p.price).toFixed(2);
+    document.getElementById("desc").textContent = p.description || "";
+
+    renderReviews(p.reviews);
+  }
+
+  async function submitReview() {
+    const rating = document.getElementById("rating").value;
+    const text = document.getElementById("reviewText").value.trim();
+
+    const r = await fetch(`/api/products/${id}/reviews`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ rating, text })
+    });
+
+    const data = await r.json().catch(() => ({}));
+    if (!r.ok) {
+      alert(data.message || "Failed to submit review");
+      return;
+    }
+
+    document.getElementById("reviewText").value = "";
+    await loadProduct();
+    alert("Review added!");
+  }
+
+  document.getElementById("submitReview").addEventListener("click", submitReview);
+  loadProduct();
+</script>
