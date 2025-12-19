@@ -523,3 +523,20 @@ footer {
   font-size: 0.85rem;
   margin-right: 4px;
 }
+
+.or-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 16px 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.or-divider::before,
+.or-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #ddd;
+  margin: 0 8px;
+}
